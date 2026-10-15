@@ -1,30 +1,32 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:project_uas/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  testWidgets('App smoke test & theme toggle verification', (WidgetTester tester) async {
+    // Build app dan render frame pertama
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verifikasi bahwa judul Quiz Umum tampil
+    expect(find.text('Quiz Umum'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Verifikasi status awal tema terang
+    expect(find.text('Mode Terang Aktif'), findsOneWidget);
+    expect(find.text('Beralih ke Mode Gelap'), findsOneWidget);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Tap tombol toggle tema
+    await tester.tap(find.text('Beralih ke Mode Gelap'));
+    await tester.pumpAndSettle();
+
+    // Verifikasi tema berhasil beralih ke mode gelap
+    expect(find.text('Mode Gelap Aktif'), findsOneWidget);
+    expect(find.text('Beralih ke Mode Terang'), findsOneWidget);
+
+    // Tap tombol ikon appbar untuk beralih kembali ke mode terang
+    await tester.tap(find.byType(IconButton));
+    await tester.pumpAndSettle();
+
+    // Verifikasi kembali ke mode terang
+    expect(find.text('Mode Terang Aktif'), findsOneWidget);
   });
 }
