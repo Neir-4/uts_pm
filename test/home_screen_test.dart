@@ -229,8 +229,8 @@ void main() {
 
       // Verifikasi navigasi ke QuizScreen berhasil
       expect(find.byType(QuizScreen), findsOneWidget);
-      expect(find.text('Halo, Andi Pratama!'), findsOneWidget);
       expect(find.text('Kuis Pengetahuan Umum'), findsOneWidget);
+      expect(find.text('Soal 1'), findsOneWidget);
     });
 
     testWidgets('submits form via keyboard onFieldSubmitted action',
