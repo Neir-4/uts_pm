@@ -3,30 +3,33 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:project_uas/main.dart';
 
 void main() {
-  testWidgets('App smoke test & theme toggle verification', (WidgetTester tester) async {
+  testWidgets('App smoke test & theme toggle verification on HomeScreen',
+      (WidgetTester tester) async {
     // Build app dan render frame pertama
     await tester.pumpWidget(const MyApp());
+    await tester.pumpAndSettle();
 
-    // Verifikasi bahwa judul Quiz Umum tampil
+    // Verifikasi bahwa judul Quiz Umum tampil pada AppBar
     expect(find.text('Quiz Umum'), findsOneWidget);
+    expect(find.text('Quiz Pengetahuan Umum'), findsOneWidget);
+    expect(find.text('Mulai Kuis'), findsOneWidget);
 
-    // Verifikasi status awal tema terang
-    expect(find.text('Mode Terang Aktif'), findsOneWidget);
-    expect(find.text('Beralih ke Mode Gelap'), findsOneWidget);
+    // Verifikasi tooltip awal tombol tema (Mode Terang -> tooltip: Ganti ke Mode Gelap)
+    expect(find.byTooltip('Ganti ke Mode Gelap'), findsOneWidget);
+    expect(find.byIcon(Icons.dark_mode_outlined), findsOneWidget);
 
-    // Tap tombol toggle tema
-    await tester.tap(find.text('Beralih ke Mode Gelap'));
+    // Tap tombol toggle tema di AppBar
+    await tester.tap(find.byTooltip('Ganti ke Mode Gelap'));
     await tester.pumpAndSettle();
 
-    // Verifikasi tema berhasil beralih ke mode gelap
-    expect(find.text('Mode Gelap Aktif'), findsOneWidget);
-    expect(find.text('Beralih ke Mode Terang'), findsOneWidget);
+    // Verifikasi ikon dan tooltip berubah ke mode terang
+    expect(find.byTooltip('Ganti ke Mode Terang'), findsOneWidget);
+    expect(find.byIcon(Icons.light_mode_outlined), findsOneWidget);
 
-    // Tap tombol ikon appbar untuk beralih kembali ke mode terang
-    await tester.tap(find.byType(IconButton));
+    // Tap kembali untuk beralih ke mode terang
+    await tester.tap(find.byTooltip('Ganti ke Mode Terang'));
     await tester.pumpAndSettle();
 
-    // Verifikasi kembali ke mode terang
-    expect(find.text('Mode Terang Aktif'), findsOneWidget);
+    expect(find.byTooltip('Ganti ke Mode Gelap'), findsOneWidget);
   });
 }
