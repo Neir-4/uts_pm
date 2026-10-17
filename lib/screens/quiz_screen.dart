@@ -210,17 +210,22 @@ class QuizScreen extends StatelessWidget {
         body: SafeArea(
           child: LayoutBuilder(
             builder: (context, constraints) {
+              final minContentHeight =
+                  (constraints.maxHeight - 32.0).clamp(0.0, double.infinity);
+
               return SingleChildScrollView(
                 physics: const ClampingScrollPhysics(),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20.0,
                   vertical: 16.0,
                 ),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: constraints.maxHeight - 32.0,
-                  ),
-                  child: Column(
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: minContentHeight,
+                      maxWidth: 540.0,
+                    ),
+                    child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -308,7 +313,8 @@ class QuizScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-              );
+              ),
+            );
             },
           ),
         ),

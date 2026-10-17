@@ -72,20 +72,24 @@ class QuestionCard extends StatelessWidget {
                 ),
               if (category != null) ...[
                 const SizedBox(width: 8.0),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8.0,
-                    vertical: 2.0,
-                  ),
-                  decoration: BoxDecoration(
-                    color: colorScheme.secondary.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(6.0),
-                  ),
-                  child: Text(
-                    category!,
-                    style: theme.textTheme.labelSmall?.copyWith(
-                      color: colorScheme.secondary,
-                      fontWeight: FontWeight.w600,
+                Flexible(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0,
+                      vertical: 2.0,
+                    ),
+                    decoration: BoxDecoration(
+                      color: colorScheme.secondary.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(6.0),
+                    ),
+                    child: Text(
+                      category!,
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: colorScheme.secondary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ),
