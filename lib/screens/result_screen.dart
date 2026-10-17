@@ -1,103 +1,175 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:project_uas/providers/quiz_provider.dart';
+import 'package:project_uas/providers/theme_provider.dart';
+import 'package:project_uas/screens/quiz_screen.dart';
 import 'package:project_uas/widgets/primary_button.dart';
+import 'package:project_uas/widgets/score_card.dart';
 
-/// Layar hasil kuis (ResultScreen).
+/// Layar hasil akhir kuis (ResultScreen).
 ///
-/// Menampilkan ringkasan skor dan evaluasi hasil pengerjaan kuis.
-/// Komponen lengkap (ScoreCard, dsb.) akan diimplementasikan pada Tahap 8.
+/// Menampilkan ringkasan komprehensif hasil pengerjaan kuis:
+/// 1. Ilustrasi visual / ikon evaluasi sesuai persentase skor (trophy / medal / try again).
+/// 2. Judul penyelesaian dan pesan evaluasi motivasional.
+/// 3. Komponen [ScoreCard] yang memuat nama peserta, skor X/10, persentase %, serta rincian jawaban.
+/// 4. Tombol aksi untuk mengulang kuis ("Ulangi Kuis") atau kembali ke menu awal ("Kembali ke Beranda").
+/// 5. Aksi toggle tema Light / Dark di AppBar.
 class ResultScreen extends StatelessWidget {
-  const ResultScreen({super.key});
+  /// Callback opsional saat tombol 'Ulangi Kuis' ditekan (berguna untuk testing).
+  final VoidCallback? onRestart;
+
+  /// Callback opsional saat tombol 'Kembali ke Beranda' ditekan (berguna untuk testing).
+  final VoidCallback? onHome;
+
+  const ResultScreen({
+    super.key,
+    this.onRestart,
+    this.onHome,
+  });
 
   @override
   Widget build(BuildContext context) {
     final quizProvider = context.watch<QuizProvider>();
+    final themeProvider = context.watch<ThemeProvider>();
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final isDark = themeProvider.isDarkMode;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Hasil Kuis'),
-        automaticallyImplyLeading: false,
-      ),
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.emoji_events_rounded,
-                  size: 72.0,
-                  color: colorScheme.secondary,
-                ),
-                const SizedBox(height: 16.0),
-                Text(
-                  'Kuis Selesai!',
-                  style: theme.textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 8.0),
-                Text(
-                  'Peserta: ${quizProvider.userName.isEmpty ? 'Peserta' : quizProvider.userName}',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 12.0),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0,
-                    vertical: 12.0,
-                  ),
-                  decoration: BoxDecoration(
-                    color: colorScheme.surface,
-                    borderRadius: BorderRadius.circular(12.0),
-                    border: Border.all(color: colorScheme.outline),
-                  ),
-                  child: Column(
-                    children: [
-                      Text(
-                        'Skor: ${quizProvider.score} / ${quizProvider.totalQuestions}',
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: colorScheme.primary,
+    final displayName =
+        quizProvider.userName.trim().isEmpty ? 'Peserta' : quizProvider.userName.trim();
+
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        if (onHome != null) {
+          onHome!();
+        } else {
+          quizProvider.resetQuiz();
+          Navigator.of(context).popUntil((route) => route.isFirst);
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Hasil Kuis'),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+              tooltip: isDark ? 'Beralih ke Mode Terang' : 'Beralih ke Mode Gelap',
+              icon: Icon(
+                isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
+              ),
+              onPressed: () => themeProvider.toggleTheme(),
+            ),
+            const SizedBox(width: 8.0),
+          ],
+        ),
+        body: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 20.0,
+              ),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 480.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // 1. Ilustrasi Hasil Kuis
+                    Center(
+                      child: Image.asset(
+                        quizProvider.resultImagePath,
+                        height: 120.0,
+                        width: 120.0,
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) => Icon(
+                          Icons.emoji_events_rounded,
+                          size: 80.0,
+                          color: colorScheme.secondary,
                         ),
                       ),
-                      const SizedBox(height: 4.0),
-                      Text(
-                        'Persentase: ${quizProvider.scorePercentageFormatted}',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
-                        ),
+                    ),
+
+                    const SizedBox(height: 18.0),
+
+                    // 2. Judul Penyelesaian
+                    Text(
+                      'Kuis Selesai!',
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: colorScheme.onSurface,
                       ),
-                    ],
-                  ),
+                      textAlign: TextAlign.center,
+                    ),
+
+                    const SizedBox(height: 6.0),
+
+                    // Pesan Evaluasi Motivasional
+                    Text(
+                      quizProvider.resultMessage,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+
+                    const SizedBox(height: 24.0),
+
+                    // 3. Komponen ScoreCard
+                    ScoreCard(
+                      score: quizProvider.score,
+                      totalQuestions: quizProvider.totalQuestions,
+                      percentage: quizProvider.scorePercentage,
+                      percentageFormatted: quizProvider.scorePercentageFormatted,
+                      correctCount: quizProvider.correctAnswersCount,
+                      wrongCount: quizProvider.wrongAnswersCount,
+                      unansweredCount: quizProvider.unansweredCount,
+                      userName: displayName,
+                    ),
+
+                    const SizedBox(height: 28.0),
+
+                    // 4. Tombol Aksi: Ulangi Kuis (Filled)
+                    PrimaryButton(
+                      text: 'Ulangi Kuis',
+                      icon: Icons.replay_rounded,
+                      onPressed: () {
+                        if (onRestart != null) {
+                          onRestart!();
+                        } else {
+                          quizProvider.restartQuiz();
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (_) => const QuizScreen(),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+
+                    const SizedBox(height: 12.0),
+
+                    // 5. Tombol Aksi: Kembali ke Beranda (Outlined)
+                    PrimaryButton.outlined(
+                      text: 'Kembali ke Beranda',
+                      icon: Icons.home_rounded,
+                      onPressed: () {
+                        if (onHome != null) {
+                          onHome!();
+                        } else {
+                          quizProvider.resetQuiz();
+                          Navigator.of(context).popUntil((route) => route.isFirst);
+                        }
+                      },
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 24.0),
-                PrimaryButton(
-                  text: 'Ulangi Kuis',
-                  icon: Icons.replay_rounded,
-                  onPressed: () {
-                    quizProvider.restartQuiz();
-                    Navigator.of(context).pop();
-                  },
-                ),
-                const SizedBox(height: 12.0),
-                PrimaryButton.outlined(
-                  text: 'Kembali ke Beranda',
-                  icon: Icons.home_rounded,
-                  onPressed: () {
-                    quizProvider.resetQuiz();
-                    Navigator.of(context).popUntil((route) => route.isFirst);
-                  },
-                ),
-              ],
+              ),
             ),
           ),
         ),
