@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
 
-/// Widget reusable untuk menampilkan kartu pertanyaan kuis.
-///
-/// Menyajikan nomor pertanyaan, kategori (opsional), serta teks pertanyaan
-/// dengan tipografi yang jelas, mudah dibaca, dan proteksi tata letak responsif.
+/// Widget untuk menampilkan kartu pertanyaan kuis.
+
 class QuestionCard extends StatelessWidget {
-  /// Teks soal pertanyaan kuis.
   final String questionText;
 
-  /// Nomor urut pertanyaan (opsional, 1-indexed).
   final int? questionNumber;
 
-  /// Kategori atau topik soal (opsional).
   final String? category;
 
-  /// Ikon opsional untuk header kartu pertanyaan.
   final IconData? icon;
 
   const QuestionCard({
@@ -48,19 +42,6 @@ class QuestionCard extends StatelessWidget {
           // Header Kartu: Ikon/Badge Nomor Soal & Kategori
           Row(
             children: [
-              Container(
-                padding: const EdgeInsets.all(6.0),
-                decoration: BoxDecoration(
-                  color: colorScheme.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Icon(
-                  icon ?? Icons.help_outline_rounded,
-                  size: 18.0,
-                  color: colorScheme.primary,
-                ),
-              ),
-              const SizedBox(width: 10.0),
               if (questionNumber != null)
                 Text(
                   'Pertanyaan #$questionNumber',

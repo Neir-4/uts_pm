@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
 
-/// Widget reusable untuk menampilkan header progres pengerjaan kuis.
-///
-/// Menyajikan informasi nomor soal aktif, total soal, persentase kemajuan,
-/// jumlah soal yang telah terjawab, serta progress bar visual yang responsif
-/// dan aman terhadap batasan layar compact/kecil.
+/// Widget untuk menampilkan header progres pengerjaan kuis.
+
 class ProgressHeader extends StatelessWidget {
-  /// Indeks soal aktif saat ini (0-indexed).
   final int currentQuestionIndex;
 
-  /// Jumlah total pertanyaan dalam kuis.
   final int totalQuestions;
 
-  /// Nilai progres dalam rentang 0.0 sampai 1.0 (opsional).
-  /// Jika bernilai null, akan dihitung otomatis dari (currentQuestionIndex + 1) / totalQuestions.
   final double? progress;
 
-  /// Jumlah pertanyaan yang sudah dijawab oleh peserta (opsional).
   final int? answeredCount;
 
   const ProgressHeader({
@@ -27,16 +19,15 @@ class ProgressHeader extends StatelessWidget {
     this.answeredCount,
   });
 
-  /// Nomor soal saat ini untuk representasi UI manusia (1-indexed).
   int get currentQuestionNumber => currentQuestionIndex + 1;
 
-  /// Nilai progres efektif yang aman (0.0 sampai 1.0).
   double get effectiveProgress {
     if (progress != null) {
       return progress!.clamp(0.0, 1.0);
     }
     if (totalQuestions <= 0) return 0.0;
-    return (currentQuestionNumber / totalQuestions).clamp(0.0, 1.0);
+    final answered = answeredCount ?? 0;
+    return (answered / totalQuestions).clamp(0.0, 1.0);
   }
 
   /// Format teks persentase progres bilangan bulat (misal: "30%").

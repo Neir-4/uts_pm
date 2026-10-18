@@ -25,6 +25,7 @@ void main() {
           const ProgressHeader(
             currentQuestionIndex: 2, // Soal ke-3
             totalQuestions: 10,
+            answeredCount: 3,
           ),
         ),
       );
@@ -35,19 +36,37 @@ void main() {
       expect(find.byType(LinearProgressIndicator), findsOneWidget);
     });
 
-    testWidgets('displays answered count when provided', (tester) async {
+    testWidgets('displays answered count and calculates percentage from answered questions', (tester) async {
       await tester.pumpWidget(
         buildTestableWidget(
           const ProgressHeader(
-            currentQuestionIndex: 4,
+            currentQuestionIndex: 4, // Sedang mengerjakan soal 5
             totalQuestions: 10,
-            answeredCount: 3,
+            answeredCount: 3, // 3 soal terjawab -> 30%, bukan 50%
           ),
         ),
       );
 
       expect(find.text('3/10 Terjawab'), findsOneWidget);
       expect(find.byIcon(Icons.check_circle_outline_rounded), findsOneWidget);
+      expect(find.text('30%'), findsOneWidget);
+      expect(find.text('50%'), findsNothing);
+    });
+
+    testWidgets('shows 0% when no questions answered regardless of current question index', (tester) async {
+      await tester.pumpWidget(
+        buildTestableWidget(
+          const ProgressHeader(
+            currentQuestionIndex: 7, // Sedang mengerjakan soal 8
+            totalQuestions: 10,
+            answeredCount: 0,
+          ),
+        ),
+      );
+
+      expect(find.text('Soal 8'), findsOneWidget);
+      expect(find.text('0%'), findsOneWidget);
+      expect(find.text('80%'), findsNothing);
     });
 
     testWidgets('uses explicit progress value when provided and clamps safely', (tester) async {

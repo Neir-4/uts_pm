@@ -22,7 +22,7 @@ void main() {
       expect(provider.isLastQuestion, isFalse);
       expect(provider.canGoPrevious, isFalse);
       expect(provider.canGoNext, isTrue);
-      expect(provider.progress, closeTo(0.1, 0.001));
+      expect(provider.progress, 0.0);
       expect(provider.isCompleted, isFalse);
       expect(provider.score, 0);
       expect(provider.correctAnswersCount, 0);
@@ -105,14 +105,22 @@ void main() {
       expect(provider.isQuestionAnswered(0), isTrue);
       expect(provider.hasAnsweredCurrent, isTrue);
       expect(provider.answeredQuestionsCount, 1);
+      expect(provider.progress, closeTo(0.1, 0.001));
       expect(notifyCount, 1);
 
-      // Ganti jawaban untuk soal nomor 0
+      // Berpindah soal tanpa menjawab soal kedua tidak menambah progress
+      provider.nextQuestion();
+      expect(provider.currentQuestionIndex, 1);
+      expect(provider.progress, closeTo(0.1, 0.001));
+      provider.previousQuestion();
+
+      // Ganti jawaban untuk soal nomor 0 (tetap 1 terjawab)
       provider.selectAnswer(3);
       expect(provider.currentSelectedAnswer, 3);
       expect(provider.getSelectedAnswer(0), 3);
       expect(provider.answeredQuestionsCount, 1);
-      expect(notifyCount, 2);
+      expect(provider.progress, closeTo(0.1, 0.001));
+      expect(notifyCount, 4);
     });
 
     test('selectAnswerFor allows setting answer for specific question index', () {

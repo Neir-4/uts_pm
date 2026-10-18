@@ -9,15 +9,8 @@ import 'package:project_uas/widgets/progress_header.dart';
 import 'package:project_uas/widgets/question_card.dart';
 
 /// Layar pengerjaan kuis interaktif (QuizScreen).
-///
-/// Menyajikan alur pengerjaan soal lengkap:
-/// 1. [ProgressHeader] di bagian atas menampilkan nomor soal, progress bar, dan status terjawab.
-/// 2. [QuestionCard] menampilkan teks pertanyaan aktif saat ini.
-/// 3. Empat [AnswerOptionTile] menampilkan pilihan jawaban (A, B, C, D) dengan highlight aktif dan kemampuan mengubah jawaban.
-/// 4. Tombol navigasi bawah ("Sebelumnya", "Selanjutnya", dan "Selesai" pada nomor terakhir).
-/// 5. Konfirmasi sebelum keluar kuis (mencegah kehilangan progres tanpa sengaja).
+
 class QuizScreen extends StatelessWidget {
-  /// Callback opsional saat kuis diselesaikan (berguna untuk testing atau kustomisasi navigasi).
   final VoidCallback? onQuizFinished;
 
   const QuizScreen({
@@ -25,7 +18,6 @@ class QuizScreen extends StatelessWidget {
     this.onQuizFinished,
   });
 
-  /// Menampilkan dialog konfirmasi saat pengguna menekan tombol kembali.
   Future<bool> _showExitConfirmationDialog(BuildContext context) async {
     final result = await showDialog<bool>(
       context: context,
@@ -77,7 +69,7 @@ class QuizScreen extends StatelessWidget {
     return result ?? false;
   }
 
-  /// Menangani aksi penyelesaian kuis (submit).
+  /// Menangani penyelesaian kuis (submit).
   Future<void> _handleFinishQuiz(
     BuildContext context,
     QuizProvider quizProvider,
@@ -233,7 +225,7 @@ class QuizScreen extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          // 1. Progress Header
+                          // Progress Header
                           ProgressHeader(
                             currentQuestionIndex:
                                 quizProvider.currentQuestionIndex,
@@ -244,7 +236,7 @@ class QuizScreen extends StatelessWidget {
 
                           const SizedBox(height: 16.0),
 
-                          // 2. Question Card
+                          // Question Card
                           QuestionCard(
                             questionText: currentQuestion.text,
                             questionNumber: quizProvider.currentQuestionNumber,
@@ -252,7 +244,7 @@ class QuizScreen extends StatelessWidget {
 
                           const SizedBox(height: 16.0),
 
-                          // 3. Empat Opsi Jawaban (A, B, C, D)
+                          // Empat Opsi Jawaban (A, B, C, D)
                           ...List.generate(
                             currentQuestion.options.length,
                             (index) {

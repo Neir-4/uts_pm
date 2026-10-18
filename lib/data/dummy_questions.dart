@@ -1,6 +1,5 @@
 import 'package:project_uas/models/question.dart';
 
-/// Daftar 10 butir soal pengetahuan umum untuk kuis.
 const List<Question> dummyQuestions = [
   Question(
     text: 'Candi Borobudur yang merupakan candi Buddha terbesar di dunia terletak di provinsi...',

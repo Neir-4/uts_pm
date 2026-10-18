@@ -1,27 +1,18 @@
 import 'package:flutter/material.dart';
 
 /// Widget reusable untuk menampilkan satu opsi pilihan jawaban kuis (A, B, C, D).
-///
-/// Mendukung penyorotan visual aktif (highlight) ketika opsi dipilih,
-/// efek ripple sentuhan responsif, badge huruf opsi, dan proteksi text wrapping
-/// agar tidak terjadi visual overflow pada jawaban yang panjang.
+
 class AnswerOptionTile extends StatelessWidget {
-  /// Indeks urutan pilihan jawaban (0 untuk 'A', 1 untuk 'B', 2 untuk 'C', 3 untuk 'D').
   final int optionIndex;
 
-  /// Teks pilihan jawaban.
   final String optionText;
 
-  /// Status apakah opsi ini sedang dipilih oleh pengguna.
   final bool isSelected;
 
-  /// Aksi callback saat opsi ditekan.
   final VoidCallback? onTap;
 
-  /// Status apakah opsi dapat diinteraksi (aktif/nonaktif).
   final bool isEnabled;
 
-  /// Label huruf kustom (opsional, jika tidak diset menggunakan huruf A-Z berdasarkan [optionIndex]).
   final String? customLabel;
 
   const AnswerOptionTile({
@@ -34,7 +25,6 @@ class AnswerOptionTile extends StatelessWidget {
     this.customLabel,
   });
 
-  /// Mendapatkan huruf pilihan jawaban ('A', 'B', 'C', 'D', dst).
   String get optionLetter {
     if (customLabel != null && customLabel!.isNotEmpty) {
       return customLabel!;
