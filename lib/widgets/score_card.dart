@@ -1,38 +1,24 @@
 import 'package:flutter/material.dart';
 
-/// Widget reusable untuk menampilkan ringkasan skor akhir kuis.
-///
-/// Menyajikan:
-/// 1. Nama peserta (opsional).
-/// 2. Skor dalam format X / Y dan persentase (misal: "8 / 10" dan "Nilai: 80%").
-/// 3. Rincian jumlah jawaban (benar, salah, dan terlewat/belum dijawab).
-/// 4. Pesan evaluasi kuis (opsional).
+/// Widget untuk menampilkan skor akhir kuis.
+
 class ScoreCard extends StatelessWidget {
-  /// Jumlah jawaban benar atau skor yang diperoleh peserta.
   final int score;
 
-  /// Jumlah total pertanyaan kuis.
   final int totalQuestions;
 
-  /// Persentase nilai skor (0..100). Jika null, dihitung otomatis dari [score] dan [totalQuestions].
   final double? percentage;
 
-  /// Teks persentase terformat (misal "80%"). Jika null, dihitung otomatis.
   final String? percentageFormatted;
 
-  /// Jumlah jawaban benar. Default bernilai sama dengan [score].
   final int? correctCount;
 
-  /// Jumlah jawaban salah. Default dihitung dari [totalQuestions] - [score].
   final int? wrongCount;
 
-  /// Jumlah soal yang belum dijawab / terlewat.
   final int? unansweredCount;
 
-  /// Nama peserta kuis (opsional).
   final String? userName;
 
-  /// Pesan evaluasi kuis (opsional).
   final String? evaluationMessage;
 
   const ScoreCard({
@@ -48,30 +34,25 @@ class ScoreCard extends StatelessWidget {
     this.evaluationMessage,
   });
 
-  /// Menghitung persentase nilai secara aman.
   double get _computedPercentage {
     if (percentage != null) return percentage!;
     if (totalQuestions <= 0) return 0.0;
     return (score / totalQuestions) * 100;
   }
 
-  /// Menghasilkan format string persentase.
   String get _computedPercentageFormatted {
     if (percentageFormatted != null) return percentageFormatted!;
     return '${_computedPercentage.round()}%';
   }
 
-  /// Menghasilkan jumlah jawaban benar yang aman.
   int get _computedCorrectCount => correctCount ?? score;
 
-  /// Menghasilkan jumlah jawaban salah yang aman.
   int get _computedWrongCount {
     if (wrongCount != null) return wrongCount!;
     final calculated = totalQuestions - score;
     return calculated < 0 ? 0 : calculated;
   }
 
-  /// Menghasilkan jumlah soal yang belum dijawab.
   int get _computedUnansweredCount => unansweredCount ?? 0;
 
   @override
@@ -94,23 +75,10 @@ class ScoreCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // 1. Header Peserta (jika userName disediakan dan tidak kosong)
+          // Header Peserta (jika userName disediakan dan tidak kosong)
           if (userName != null && userName!.trim().isNotEmpty) ...[
             Row(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(6.0),
-                  decoration: BoxDecoration(
-                    color: colorScheme.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Icon(
-                    Icons.person_outline_rounded,
-                    size: 18.0,
-                    color: colorScheme.primary,
-                  ),
-                ),
-                const SizedBox(width: 10.0),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,7 +109,7 @@ class ScoreCard extends StatelessWidget {
             const SizedBox(height: 16.0),
           ],
 
-          // 2. Banner Skor Utama
+          // Banner Skor Utama
           Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 20.0,
@@ -212,7 +180,7 @@ class ScoreCard extends StatelessWidget {
 
           const SizedBox(height: 16.0),
 
-          // 3. Rincian Statistik (Benar, Salah, Terlewat)
+          // Rincian Statistik (Benar, Salah, Terlewat)
           Row(
             children: [
               Expanded(
@@ -249,7 +217,7 @@ class ScoreCard extends StatelessWidget {
             ],
           ),
 
-          // 4. Pesan Evaluasi (jika diberikan)
+          // Pesan Evaluasi (jika diberikan)
           if (evaluationMessage != null && evaluationMessage!.trim().isNotEmpty) ...[
             const SizedBox(height: 16.0),
             Container(

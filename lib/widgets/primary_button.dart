@@ -2,48 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:project_uas/theme/app_theme.dart';
 
 /// Widget tombol utama yang dapat digunakan kembali (reusable) di seluruh aplikasi.
-///
-/// Mendukung mode terisi (filled) maupun bergaris tepi (outlined), status loading,
-/// ikon opsional, dan penyesuaian warna serta ukuran yang responsif mengikuti tema.
+
 class PrimaryButton extends StatelessWidget {
-  /// Teks label pada tombol.
   final String text;
 
-  /// Aksi callback saat tombol ditekan. Jika bernilai null, tombol akan berada dalam kondisi nonaktif (disabled).
   final VoidCallback? onPressed;
 
-  /// Ikon opsional yang ditampilkan di sisi kiri label teks.
   final IconData? icon;
 
-  /// Menandakan apakah tombol sedang dalam status memproses (loading).
-  /// Saat aktif, tombol menampilkan CircularProgressIndicator dan dinonaktifkan sementara.
+
   final bool isLoading;
 
-  /// Menandakan apakah tombol menggunakan gaya Outlined (bergaris tepi transparan).
   final bool isOutlined;
 
-  /// Lebar tombol. Nilai default adalah `double.infinity` agar mengisi lebar kontainer induk.
   final double? width;
 
-  /// Tinggi tombol. Nilai default adalah 50.0 px (memenuhi standar minimum target sentuh 48 px).
   final double height;
 
-  /// Warna latar belakang kustom (opsional, bawaan menggunakan `colorScheme.primary`).
   final Color? backgroundColor;
 
-  /// Warna teks dan ikon kustom (opsional, bawaan menggunakan `colorScheme.onPrimary`).
   final Color? foregroundColor;
 
-  /// Radius sudut tombol. Nilai default adalah 10.0 px sesuai desain minimalis.
   final BorderRadius? borderRadius;
 
-  /// Padding internal tombol.
   final EdgeInsetsGeometry? padding;
 
-  /// Gaya teks kustom untuk label tombol (opsional).
   final TextStyle? textStyle;
 
-  /// Konstruktor standar untuk tombol terisi (Filled Button).
   const PrimaryButton({
     super.key,
     required this.text,
@@ -60,7 +45,6 @@ class PrimaryButton extends StatelessWidget {
     this.textStyle,
   });
 
-  /// Konstruktor sekunder untuk tombol Outlined (bergaris tepi).
   const PrimaryButton.outlined({
     super.key,
     required this.text,
@@ -99,7 +83,6 @@ class PrimaryButton extends StatelessWidget {
             ))
         .copyWith(color: defaultTextColor);
 
-    // Konten tombol: Spinner saat loading, atau kombinasi ikon dan teks dengan proteksi overflow
     final Widget buttonContent = isLoading
         ? Center(
             child: SizedBox(

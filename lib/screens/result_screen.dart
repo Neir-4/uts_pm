@@ -7,18 +7,10 @@ import 'package:project_uas/widgets/primary_button.dart';
 import 'package:project_uas/widgets/score_card.dart';
 
 /// Layar hasil akhir kuis (ResultScreen).
-///
-/// Menampilkan ringkasan komprehensif hasil pengerjaan kuis:
-/// 1. Ilustrasi visual / ikon evaluasi sesuai persentase skor (trophy / medal / try again).
-/// 2. Judul penyelesaian dan pesan evaluasi motivasional.
-/// 3. Komponen [ScoreCard] yang memuat nama peserta, skor X/10, persentase %, serta rincian jawaban.
-/// 4. Tombol aksi untuk mengulang kuis ("Ulangi Kuis") atau kembali ke menu awal ("Kembali ke Beranda").
-/// 5. Aksi toggle tema Light / Dark di AppBar.
+
 class ResultScreen extends StatelessWidget {
-  /// Callback opsional saat tombol 'Ulangi Kuis' ditekan (berguna untuk testing).
   final VoidCallback? onRestart;
 
-  /// Callback opsional saat tombol 'Kembali ke Beranda' ditekan (berguna untuk testing).
   final VoidCallback? onHome;
 
   const ResultScreen({
@@ -79,7 +71,7 @@ class ResultScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // 1. Ilustrasi Hasil Kuis
+                    // Ilustrasi Hasil Kuis
                     Center(
                       child: Image.asset(
                         quizProvider.resultImagePath,
@@ -96,7 +88,7 @@ class ResultScreen extends StatelessWidget {
 
                     const SizedBox(height: 18.0),
 
-                    // 2. Judul Penyelesaian
+                    // Judul Penyelesaian
                     Text(
                       'Kuis Selesai!',
                       style: theme.textTheme.headlineSmall?.copyWith(
@@ -120,7 +112,7 @@ class ResultScreen extends StatelessWidget {
 
                     const SizedBox(height: 24.0),
 
-                    // 3. Komponen ScoreCard
+                    // Komponen ScoreCard
                     ScoreCard(
                       score: quizProvider.score,
                       totalQuestions: quizProvider.totalQuestions,
@@ -134,7 +126,7 @@ class ResultScreen extends StatelessWidget {
 
                     const SizedBox(height: 28.0),
 
-                    // 4. Tombol Aksi: Ulangi Kuis (Filled)
+                    // Tombol Aksi: Ulangi Kuis (Filled)
                     PrimaryButton(
                       text: 'Ulangi Kuis',
                       icon: Icons.replay_rounded,
@@ -154,7 +146,7 @@ class ResultScreen extends StatelessWidget {
 
                     const SizedBox(height: 12.0),
 
-                    // 5. Tombol Aksi: Kembali ke Beranda (Outlined)
+                    // Tombol Aksi: Kembali ke Beranda (Outlined)
                     PrimaryButton.outlined(
                       text: 'Kembali ke Beranda',
                       icon: Icons.home_rounded,

@@ -14,7 +14,6 @@ class ThemeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Menentukan mode tema secara eksplisit
   void setThemeMode(ThemeMode mode) {
     if (_themeMode != mode) {
       _themeMode = mode;

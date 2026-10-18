@@ -7,11 +7,8 @@ import 'package:project_uas/widgets/custom_text_field.dart';
 import 'package:project_uas/widgets/primary_button.dart';
 
 /// Layar utama (HomeScreen) aplikasi Quiz Umum.
-///
-/// Menyediakan branding aplikasi (logo & judul), toggle tema Dark/Light,
-/// form input nama peserta dengan validasi lengkap, serta tombol untuk memulai kuis.
+
 class HomeScreen extends StatefulWidget {
-  /// Callback opsional saat kuis dimulai (berguna untuk testing atau kustomisasi alur navigasi).
   final void Function(String name)? onQuizStarted;
 
   const HomeScreen({
@@ -30,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // Memuat nama yang sebelumnya tersimpan di provider jika ada
     final existingName = context.read<QuizProvider>().userName;
     _nameController = TextEditingController(text: existingName);
   }
@@ -42,16 +38,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _startQuiz() {
-    // Jalankan validasi Form
     if (_formKey.currentState?.validate() ?? false) {
       final trimmedName = _nameController.text.trim();
       final quizProvider = context.read<QuizProvider>();
 
-      // Simpan nama peserta dan reset progres pengerjaan kuis
       quizProvider.setUserName(trimmedName);
       quizProvider.restartQuiz();
 
-      // Panggil callback kustom jika ada, atau lakukan navigasi ke QuizScreen
       if (widget.onQuizStarted != null) {
         widget.onQuizStarted!(trimmedName);
       } else {
@@ -97,30 +90,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Logo / Ilustrasi Kuis
                   Center(
                     child: Image.asset(
-                      'assets/images/quiz_logo.png',
-                      height: 80,
-                      width: 80,
-                      fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) => Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: colorScheme.primary.withValues(alpha: 0.1),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.quiz_rounded,
-                          size: 44,
-                          color: colorScheme.primary,
-                        ),
-                      ),
-                    ),
+                        'assets/images/logo.png',
+                        height: 120.0,
+                        width: 120.0,
+                        fit: BoxFit.contain,
+                    )
                   ),
-                  const SizedBox(height: 12),
-
+                  const SizedBox(height: 20),
                   // Judul & Deskripsi Kuis
                   Text(
                     'Quiz Pengetahuan Umum',
@@ -141,37 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 16),
-
-                  // Informasi Fitur Kuis (10 Soal, Pilihan Ganda, Skor Otomatis)
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _buildInfoItem(
-                          context,
-                          icon: Icons.format_list_numbered_rounded,
-                          label: '10 Soal',
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: _buildInfoItem(
-                          context,
-                          icon: Icons.check_circle_outline_rounded,
-                          label: '4 Pilihan',
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: _buildInfoItem(
-                          context,
-                          icon: Icons.emoji_events_outlined,
-                          label: 'Skor Akurat',
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 32),
 
                   // Kartu Form Input Nama & Tombol Mulai
                   Card(
@@ -182,27 +130,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Text(
-                              'Data Peserta',
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15,
-                                color: colorScheme.onSurface,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'Masukkan nama Anda sebelum memulai pengerjaan kuis.',
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: colorScheme.onSurfaceVariant,
-                                fontSize: 12,
-                              ),
-                            ),
-                            const SizedBox(height: 14),
                             CustomTextField(
                               controller: _nameController,
                               label: 'Nama Peserta',
-                              hintText: 'Contoh: Budi Pratama',
+                              
+                              hintText: 'Contoh: Ripki Al Soki',
                               prefixIcon: const Icon(Icons.person_outline_rounded),
                               showClearButton: true,
                               textCapitalization: TextCapitalization.words,
@@ -229,17 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 14),
 
-                  // Footer Teks Subtitle
-                  Text(
-                    'Praktikum Pemrograman Mobile • UAS',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
-                      fontSize: 11,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
                 ],
               ),
             ),

@@ -3,92 +3,62 @@ import 'package:flutter/services.dart';
 import 'package:project_uas/theme/app_theme.dart';
 
 /// Widget input teks kustom yang dapat digunakan kembali (reusable) di seluruh aplikasi.
-///
-/// Menyediakan label di atas field, validasi form, dukungan tombol bersihkan teks (clear button),
-/// ikon awalan/akhiran, serta integrasi tema Light/Dark yang rapi.
+
 class CustomTextField extends StatefulWidget {
-  /// Label deskriptif yang tampil di atas kolom isian.
   final String? label;
 
-  /// Teks petunjuk (placeholder) di dalam kolom isian.
   final String? hintText;
 
-  /// Teks bantuan di bawah kolom isian.
   final String? helperText;
 
-  /// Pesan error eksplisit jika tidak menggunakan form validator.
   final String? errorText;
 
-  /// Pengontrol teks untuk membaca atau memodifikasi teks secara terprogram.
   final TextEditingController? controller;
 
-  /// Fungsi validasi nilai input untuk form Flutter.
   final FormFieldValidator<String>? validator;
 
-  /// Callback yang dipanggil saat isi teks berubah.
   final ValueChanged<String>? onChanged;
 
-  /// Callback yang dipanggil saat tombol submit/selesai pada keyboard ditekan.
   final ValueChanged<String>? onFieldSubmitted;
 
-  /// Callback yang dipanggil saat proses pengeditan teks selesai.
   final VoidCallback? onEditingComplete;
 
-  /// Node fokus untuk mengontrol status fokus keyboard.
   final FocusNode? focusNode;
 
-  /// Jenis keyboard virtual yang dimunculkan (teks, angka, email, dsb).
   final TextInputType? keyboardType;
 
-  /// Aksi tombol enter pada keyboard (next, done, go, dsb).
   final TextInputAction? textInputAction;
 
-  /// Konfigurasi kapitalisasi otomatis huruf.
   final TextCapitalization textCapitalization;
 
-  /// Menandakan apakah teks disembunyikan (misalnya untuk kata sandi).
   final bool obscureText;
 
-  /// Menandakan apakah input aktif untuk menerima interaksi.
   final bool enabled;
 
-  /// Menandakan apakah input hanya bisa dibaca (tidak dapat diketik).
   final bool readOnly;
 
-  /// Menandakan apakah input langsung mendapatkan fokus saat layar pertama kali dibuka.
   final bool autofocus;
 
-  /// Jumlah baris maksimum teks. Nilai default adalah 1.
   final int? maxLines;
 
-  /// Jumlah baris minimum teks.
   final int? minLines;
 
-  /// Batas maksimum karakter input.
   final int? maxLength;
 
-  /// Widget ikon yang ditampilkan di awal kolom isian.
   final Widget? prefixIcon;
 
-  /// Widget ikon yang ditampilkan di akhir kolom isian.
   final Widget? suffixIcon;
 
-  /// Jika bernilai `true` dan `controller` disediakan, menampilkan tombol silang untuk menghapus teks saat kolom terisi.
   final bool showClearButton;
 
-  /// Daftar formatter untuk membatasi atau mengubah format teks yang diketik.
   final List<TextInputFormatter>? inputFormatters;
 
-  /// Mode autovalidasi untuk form.
   final AutovalidateMode? autovalidateMode;
 
-  /// Padding konten di dalam kolom input.
   final EdgeInsetsGeometry? contentPadding;
 
-  /// Gaya teks untuk konten yang sedang diketik.
   final TextStyle? style;
 
-  /// Callback saat kolom input diklik/disentuh.
   final VoidCallback? onTap;
 
   const CustomTextField({
