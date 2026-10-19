@@ -1,10 +1,18 @@
-# Quiz Umum - Aplikasi Kuis Pengetahuan Umum
+# Identitas Mahasiswa
+
+1. Nama    : **Yehezkiel Gustav Setiawan Sitanggang**
+2. NIM     : **241401070**
+3. Lab     : **Pemrograman Mobile 2**
+
+---
+
+# Aplikasi Kuis Pilihan Ganda
 
 Aplikasi kuis interaktif berbasis Flutter yang dikembangkan dengan antarmuka minimalis, responsif di berbagai orientasi dan resolusi layar, mendukung pergantian tema Light/Dark secara reaktif, serta mengadopsi pola arsitektur berbasis state management.
 
 ---
 
-##  Fitur Utama
+## Fitur Utama
 
 1. **Beranda & Validasi Peserta**:
    - Form input nama peserta dengan validasi (tidak boleh kosong, minimal 2 karakter, trim whitespace otomatis).
@@ -47,7 +55,7 @@ Aplikasi kuis interaktif berbasis Flutter yang dikembangkan dengan antarmuka min
 
 ---
 
-## 📂 Struktur Proyek
+## Struktur Proyek
 
 ```
 lib/
@@ -77,7 +85,7 @@ lib/
 ---
 
 
-## 🚀 Cara Menjalankan Proyek
+## Cara Menjalankan Proyek
 
 1. **Install dependensi**:
    ```bash
@@ -93,3 +101,31 @@ lib/
    ```bash
    flutter run
    ```
+
+   ---
+
+# Dokumentasi
+
+1. Font   : Font Poppins dari Google Fonts https://fonts.google.com/specimen/Poppins?preview.lang=en_Latn
+2. Icon   : Material Icon Flutter
+3. Image  : https://drive.google.com/drive/folders/12HDOHFoF6tLuxu2zS2f3w0EMVq4aEqpG?usp=sharing
+4. Mockup : https://www.figma.com/design/RHIXElSPVUQulfMEhYclBH/Untitled?node-id=0-1&t=6YJ874nkf2gk6weV-1
+
+---
+
+# Tampilan Aplikasi!
+
+Tampilan Beranda
+
+<img width="720" height="1600" alt="WhatsApp Image 2026-10-19 at 21 29 29" src="https://github.com/user-attachments/assets/f41c4c1b-23fc-4858-9c6a-88a1b4c3d362" />
+<img width="720" height="1600" alt="WhatsApp Image 2026-10-19 at 21 29 30" src="https://github.com/user-attachments/assets/b6a0b511-98e1-4109-a8d0-6e274768e603" />
+
+Tampilan Kuis
+<img width="720" height="1600" alt="WhatsApp Image 2026-10-19 at 21 29 30 (2)" src="https://github.com/user-attachments/assets/4541fe09-43c2-4e39-97a3-de1b512360a1" />
+<img width="720" height="1600" alt="WhatsApp Image 2026-10-19 at 21 29 30 (1)" src="https://github.com/user-attachments/assets/9a772a7e-9585-4f0f-b1cc-9f6e392e2fca" />
+
+Tampilan Hasil Kuis
+<img width="720" height="1600" alt="WhatsApp Image 2026-10-19 at 21 29 31 (1)" src="https://github.com/user-attachments/assets/3b392b9a-c6a2-4554-b3cb-8e6bae79c3ba" />
+<img width="720" height="1600" alt="WhatsApp Image 2026-10-19 at 21 29 31" src="https://github.com/user-attachments/assets/1656f5e3-46e7-4692-95ec-30e1365522a4" />
+
+
